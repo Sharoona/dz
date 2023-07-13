@@ -1,2 +1,2 @@
-# nu-lesson-6-tests
-nu-lesson-6-tests
+# тесты урока 6 
+Домашнее задание
