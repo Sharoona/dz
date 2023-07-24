@@ -7,30 +7,27 @@ import os
 import sys
 import pickle
 
+import shutil
+import os
 
-"""
-new_dir = input("Создать папку.\n Введите название новой папки: ")
-if not os.path.exists(new_dir):
-    os.mkdir(new_dir)
+new_dir = input("Создать папку.\nВведите название новой папки: ")
+os.mkdir(new_dir) if not os.path.exists(new_dir) else None
 
-# - удалить (файл/папку)
-# после выбора пользователь вводит название папки или файла, удаляем из рабочей директории если такой есть;
-remove_dir = input("Удалить папку.\n Введите название папки для удаления: ")
-if os.path.exists(remove_dir):
-    os.rmdir(remove_dir)
+remove_dir = input("Удалить папку.\nВведите название папки для удаления: ")
+os.rmdir(remove_dir) if os.path.exists(remove_dir) else None
 
-# - копировать (файл/папку)
-# после выбора пользователь вводит название папки/файла и новое название папки/файла. Копируем;
-name_copy_dir = input('Копирование файла/папки.\n Введите название папки в которой лежит файл: ')
-name_copy_file = input('Введите название файла для копирования: ')
-shutil.copy(os.path.join('..\\', name_copy_dir, name_copy_file),
-            os.path.join('\\dz5'))
+name_copy_dir = input("Копирование файла/папки.\nВведите название папки в которой лежит файл: ")
+name_copy_file = input("Введите название файла для копирования: ")
+
+shutil.copy(
+    os.path.join("..\\", name_copy_dir, name_copy_file),
+    os.path.join("\\dz5")
+)
 
 
 # - просмотр содержимого рабочей директории
 # вывод всех объектов в рабочей папке;
 print("Все папки и файлы:", os.listdir())
-"""
 
 # "сохранить содержимое рабочей директории в файл"
 # Получаем текущую рабочую директорию
@@ -45,63 +42,41 @@ file_name = "listdir.txt"
 # Открываем файл для записи
 with open(file_name, "w") as f:
     # Записываем содержимое в файл
-    for item in content_list:
-        f.write(item + "\n")
+    f.writelines(f"{item}\n" for item in content_list)
 
 print("Содержимое директории сохранено в файл:", file_name)
 
-"""
 # - посмотреть только папки
 # вывод только папок которые находятся в рабочей папке;
+directories = (os.path.join(dirpath, dirname) for dirpath, dirnames in os.walk(".") for dirname in dirnames)
 
-for dirpath, dirnames in os.walk("."):
-    for dirname in dirnames:
-        print("Каталог:", os.path.join(dirpath, dirname))
+print("Каталоги:")
+print(*directories, sep="\n")
 
-# - посмотреть только файлы
-# вывод только файлов которые находятся в рабочей папке;
+# Посмотреть только файлы в рабочей папке
+file_paths = [os.path.join(dirpath, filename) for dirpath, _, filenames in os.walk(".") for filename in filenames]
+print("Файлы:", *file_paths, sep="\n")
 
-for dirpath, filenames in os.walk("."):
-    for filename in filenames:
-        print("Файл:", os.path.join(dirpath, filename))
-
-# - просмотр информации об операционной системе
-# вывести информацию об операционной системе (можно использовать пример из 1-го урока);
-
+# Просмотр информации об операционной системе
 print("Операционная система: ", os.name)
 
-# - создатель программы
-# вывод информации о создателе программы;
-
-# получаем путь к текущей папке
+# Вывод информации о создателе программы
 current_dir = os.getcwd()
-# получаем имя файла в текущей папке
 filename = os.path.basename(__file__)
-# получаем объект stat
 file_stat = os.stat(filename)
-# получаем uid пользователя, который создал файл
 uid = file_stat.st_uid
-# получаем имя пользователя по его uid
 username = pwd.getpwuid(uid).pw_name
 print(f'Создатель {filename} в папке {current_dir}: {username}')
 
+# Играть в викторину
+os.startfile(r'\\dz6\\victory1.py')
 
-# - играть в викторину
-# запуск игры викторина из предыдущего дз;
-os.startfile(r'\\victory1.py')
+# Мой банковский счет
+os.startfile(r'\\my_count.py')
 
-# - мой банковский счет
-# запуск программы для работы с банковским счетом из предыдущего дз (задание учебное, после
-# выхода из программы управлением счетом в главной программе сумму и историю покупок можно не запоминать);
+# Смена рабочей директории (*необязательный пункт)
+path = input("Введите путь к новой рабочей директории: ")
+os.chdir(path)
 
-os.startfile(r'\\functions1.py')
-
-# - смена рабочей директории (*необязательный пункт)
-# усложненное задание пользователь вводит полный /home/user/... или относительный user/my/...
-# путь. Меняем рабочую директорию на ту что ввели и работаем уже в ней;
-# - выход
-# выход из программы.
-
-"""
-
+# Выход
 sys.exit()
